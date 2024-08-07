@@ -1,0 +1,25 @@
+body {
+    padding-top: 56px; /* Adjust based on the height of your navbar */
+}
+
+.navbar-brand img {
+    max-height: 40px;
+    width: auto;
+    margin-left: 10px;
+}
+
+.navbar-nav .nav-link {
+    color: white !important; /* Ensure nav link text is white */
+}
+
+.navbar .dropdown-menu {
+    right: 0; /* Ensure dropdown menu aligns to the right */
+    left: auto;
+}
+
+.dropdown-item:hover {
+    background-color: #0056b3;
+}
+.navbar{
+    width:100%;
+}

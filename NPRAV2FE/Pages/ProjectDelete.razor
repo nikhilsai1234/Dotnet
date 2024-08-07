@@ -1,0 +1,140 @@
+@page "/ProjectDelete/{projectId:int}"
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+@using System.Text.Json
+@inject CustomAuthStateProvider AuthStateProvider
+
+
+<h1>Delete Project</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    @if (project != null)
+                    {
+                        <h2 class="card-title text-center">@project.ProjectName</h2>
+                        <dl class="row">
+                            <dt class="col-sm-3">Client Name</dt>
+                            <dd class="col-sm-9">@project.ClientName</dd>
+
+                            <dt class="col-sm-3">Location</dt>
+                            <dd class="col-sm-9">@project.Location</dd>
+
+                            <dt class="col-sm-3">Manager</dt>
+                            <dd class="col-sm-9">@project.Manager</dd>
+
+                            <dt class="col-sm-3">Number of Team Members</dt>
+                            <dd class="col-sm-9">@project.NumbersofProjectTeamMembers</dd>
+
+                            <dt class="col-sm-3">Names of NGS Team Members</dt>
+                            <dd class="col-sm-9">@project.NamesofNGSTeamMembers</dd>
+
+                            <dt class="col-sm-3">Start Date</dt>
+                            <dd class="col-sm-9">@project.StartDate.ToShortDateString()</dd>
+
+                            <dt class="col-sm-3">End Date</dt>
+                            <dd class="col-sm-9">@project.EndDate.ToShortDateString()</dd>
+
+                            <dt class="col-sm-3">Project Overview</dt>
+                            <dd class="col-sm-9">@project.ProjectOverview</dd>
+
+                            <dt class="col-sm-3">User Requirements Description</dt>
+                            <dd class="col-sm-9">@project.UserRequirementsDescription</dd>
+
+                            <dt class="col-sm-3">Functional Overview Description</dt>
+                            <dd class="col-sm-9">@project.FunctionalOverviewDescription</dd>
+
+                            <dt class="col-sm-3">Solution Requirement Specification Description</dt>
+                            <dd class="col-sm-9">@project.SolutionRequirementSpecificationDescription</dd>
+
+                            <dt class="col-sm-3">Technical Overview Description</dt>
+                            <dd class="col-sm-9">@project.TechnicalOverviewDescription</dd>
+
+                            <dt class="col-sm-3">Project Management Description</dt>
+                            <dd class="col-sm-9">@project.ProjectManagementDescription</dd>
+                        </dl>
+                        <button class="btn btn-danger mt-3" @onclick="DeleteProject">Delete Project</button>
+                        <button class="btn btn-secondary mt-3 ml-2" @onclick="GoBack">Back</button>
+                        <p class="mt-3">@postResponse</p>
+                    }
+                    else
+                    {
+                        <p>Loading...</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public int projectId { get; set; }
+    private ProjectDetail project = new ProjectDetail();
+    private string postResponse;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthStateProvider.RedirectIfUserRoleEmpty();
+        try
+        {
+            var response = await MyApiService.ProjectDetails(projectId);
+            if (!string.IsNullOrEmpty(response))
+            {
+                project = JsonSerializer.Deserialize<ProjectDetail>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+        }
+        catch (Exception ex)
+        {
+            postResponse = $"Error fetching project details: {ex.Message}";
+        }
+    }
+
+    private async Task DeleteProject()
+    {
+        try
+        {
+            Console.WriteLine($"Attempting to delete project with ID: {projectId}");
+            var response = await MyApiService.DeleteProject(projectId);
+            if (response)
+            {
+                postResponse = "Project deleted successfully!";
+                Console.WriteLine($"Project with ID {projectId} deleted successfully.");
+                Navigation.NavigateTo("/HomePage");
+            }
+            else
+            {
+                postResponse = "Failed to delete project. Please try again.";
+                Console.WriteLine($"Failed to delete project with ID {projectId}.");
+            }
+        }
+        catch (Exception ex)
+        {
+            postResponse = $"Error deleting project: {ex.Message}";
+            Console.WriteLine($"Error deleting project with ID {projectId}: {ex.Message}");
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/HomePage");
+    }
+
+    private class ProjectDetail
+    {
+        public string ProjectName { get; set; }
+        public string ClientName { get; set; }
+        public string Location { get; set; }
+        public string Manager { get; set; }
+        public int NumbersofProjectTeamMembers { get; set; }
+        public string NamesofNGSTeamMembers { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string ProjectOverview { get; set; }
+        public string UserRequirementsDescription { get; set; }
+        public string FunctionalOverviewDescription { get; set; }
+        public string SolutionRequirementSpecificationDescription { get; set; }
+        public string TechnicalOverviewDescription { get; set; }
+        public string ProjectManagementDescription { get; set; }
+    }
+}

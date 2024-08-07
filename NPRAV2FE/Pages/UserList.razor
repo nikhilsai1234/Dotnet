@@ -1,0 +1,154 @@
+﻿@page "/UserList"
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+@using System.Text.Json
+@inject CustomAuthStateProvider AuthStateProvider
+
+
+<head>
+    <link href="/css/HomePage.css" rel="stylesheet">
+</head>
+
+<h3 style="text-align:center;color:#003153">User List</h3>
+<br />
+
+<main>
+    <section class="table_header">
+        <div class="header-left">
+            <h6 style="color:#000;font-weight:bold">Total Users in the Organisation: @totalUsers</h6>
+        </div>
+        <div class="header-right">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search Users..." @bind="searchString" @oninput="SearchUsers" />
+                <i class="fa fa-search"></i>
+            </div>
+        </div>
+    </section>
+
+    <section class="table_body">
+        <table>
+            <thead>
+                <tr>
+                    <th style="color:#000;">Employee ID</th>
+                    <th style="color:#000;">Employee Name</th>
+                    <th style="color:#000;">Designation</th>
+                    <th style="color:#000;">Email</th>
+                    <th style="color:#000;">Phone Number</th>
+                    <th style="color:#000;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (filteredUsers != null && filteredUsers.Any())
+                {
+                    @foreach (var item in filteredUsers)
+                    {
+                        <tr class="table-row">
+                            <td>@item.EmployeeId</td>
+                            <td>@item.EmployeeName</td>
+                            <td>@item.Designation</td>
+                            <td>@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>
+                                <button class="view-btn" @onclick="() => ViewUser(item.Id)">View</button>
+                                @if (UserRole == "Admin")
+                                {
+                                    <button class="edit-btn" @onclick="() => EditUser(item.Id)">Edit</button>
+                                    <button class="delete-btn" @onclick="() => DeleteUser(item.Id)">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" style="text-align:center">No users found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</main>
+
+@code {
+    private List<UserModel> users = new List<UserModel>();
+    private IEnumerable<UserModel> filteredUsers;
+    private int totalUsers;
+    private string searchString;
+    private string UserRole { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthStateProvider.RedirectIfUserRoleEmpty();
+        await LoadUsers();
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            var roleClaim = user.FindFirst(c => c.Type == ClaimTypes.Role);
+            if (roleClaim != null)
+            {
+                UserRole = roleClaim.Value;
+            }
+        }
+    }
+
+    private async Task LoadUsers()
+    {
+        var response = await MyApiService.GetUserListAsync();
+        if (!string.IsNullOrEmpty(response))
+        {
+            users = JsonSerializer.Deserialize<List<UserModel>>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            filteredUsers = users;
+            totalUsers = users.Count;
+        }
+        else
+        {
+            Console.WriteLine("Failed to load user list.");
+        }
+    }
+
+    private void SearchUsers(ChangeEventArgs e)
+    {
+        searchString = e.Value.ToString();
+        if (string.IsNullOrWhiteSpace(searchString))
+        {
+            filteredUsers = users;
+        }
+        else
+        {
+            filteredUsers = users.Where(u =>
+                u.EmployeeId.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                u.EmployeeName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                u.Designation.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                u.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                u.PhoneNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    private void ViewUser(int id)
+    {
+        Navigation.NavigateTo($"/UserDetails/{id}");
+    }
+
+    private void EditUser(int id)
+    {
+        Navigation.NavigateTo($"/EditUser/{id}");
+    }
+
+    private void DeleteUser(int id)
+    {
+        Navigation.NavigateTo($"/UserDelete/{id}");
+    }
+
+    private class UserModel
+    {
+        public int Id { get; set; }
+        public string EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+}

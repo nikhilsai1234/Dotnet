@@ -1,0 +1,119 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = NPRAV2FE
+build_property.RootNamespace = NPRAV2FE
+build_property.ProjectDir = D:\FinalNPRAV2\NPRAV2FE\NPRAV2FE\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\FinalNPRAV2\NPRAV2FE\NPRAV2FE
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Layout/LoginLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XExvZ2luTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Layout/NavBar.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdkJhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/AddProject.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkUHJvamVjdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ForgotPassword.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yZ290UGFzc3dvcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/HomePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZVBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ProfileAdd.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZmlsZUFkZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ProfileDelete.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZmlsZURlbGV0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ProfileDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZmlsZURldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ProfileEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZmlsZUVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ProjectDelete.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdERlbGV0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ProjectDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdERldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/ProjectEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvamVjdEVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/RedirectToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVkaXJlY3RUb0xvZ2luLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/UserAdd.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckFkZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/UserDelete.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckRlbGV0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/UserDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckRldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/UserEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Pages/UserList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-8awp4rghou
+
+[D:/FinalNPRAV2/NPRAV2FE/NPRAV2FE/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-0cqfv055f4

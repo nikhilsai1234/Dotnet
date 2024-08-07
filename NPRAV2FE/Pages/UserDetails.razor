@@ -1,0 +1,103 @@
+@page "/UserDetails/{id:int}"
+
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+@using System.Text.Json
+@inject CustomAuthStateProvider AuthStateProvider
+
+
+<h1>User Details</h1>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">@user.Username</h2>
+                    <dl class="row">
+                        <dt class="col-sm-3">Employee ID</dt>
+                        <dd class="col-sm-9">@user.EmployeeId</dd>
+
+                        <dt class="col-sm-3">Employee Name</dt>
+                        <dd class="col-sm-9">@user.EmployeeName</dd>
+
+                        <dt class="col-sm-3">First Name</dt>
+                        <dd class="col-sm-9">@user.FirstName</dd>
+
+                        <dt class="col-sm-3">Last Name</dt>
+                        <dd class="col-sm-9">@user.LastName</dd>
+
+                        <dt class="col-sm-3">Gender</dt>
+                        <dd class="col-sm-9">@user.Gender</dd>
+
+                        <dt class="col-sm-3">Age</dt>
+                        <dd class="col-sm-9">@user.Age</dd>
+
+                        <dt class="col-sm-3">Designation</dt>
+                        <dd class="col-sm-9">@user.Designation</dd>
+
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9">@user.Email</dd>
+
+                        <dt class="col-sm-3">Phone Number</dt>
+                        <dd class="col-sm-9">@user.PhoneNumber</dd>
+
+                        <dt class="col-sm-3">Username</dt>
+                        <dd class="col-sm-9">@user.Username</dd>
+
+                        <dt class="col-sm-3">Role</dt>
+                        <dd class="col-sm-9">@user.Roles</dd>
+                    </dl>
+                    <button class="btn btn-secondary mt-3" @onclick="GoBack">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public int id { get; set; }
+    private UserDetail user = new UserDetail();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthStateProvider.RedirectIfUserRoleEmpty();
+        await LoadUserDetails();
+    }
+
+    private async Task LoadUserDetails()
+    {
+        try
+        {
+            var response = await MyApiService.GetUserDetails(id);
+            if (!string.IsNullOrEmpty(response))
+            {
+                user = JsonSerializer.Deserialize<UserDetail>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/UserList");
+    }
+
+    private class UserDetail
+    {
+        public string EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Gender { get; set; }
+        public int Age { get; set; }
+        public string Designation { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Username { get; set; }
+        public string Roles { get; set; }
+    }
+}

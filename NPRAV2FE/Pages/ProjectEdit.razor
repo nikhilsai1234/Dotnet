@@ -1,0 +1,254 @@
+@page "/ProjectEdit/{projectId:int}"
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+@using System.Text.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.Logging
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Modify Project</h1>
+                    <EditForm Model="@projectDetails" OnValidSubmit="@SubmitEdit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group mb-3">
+                            <label for="projectName">Project Name</label>
+                            <InputText id="projectName" class="form-control" @bind-Value="projectDetails.ProjectName" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="clientName">Client Name</label>
+                            <InputText id="clientName" class="form-control" @bind-Value="projectDetails.ClientName" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="location">Location</label>
+                            <InputText id="location" class="form-control" @bind-Value="projectDetails.Location" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="manager">Manager</label>
+                            <InputText id="manager" class="form-control" @bind-Value="projectDetails.Manager" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="numberOfTeamMembers">Number of Project Team Members</label>
+                            <InputNumber id="numberOfTeamMembers" class="form-control" @bind-Value="projectDetails.NumbersofProjectTeamMembers" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="ngsTeamMembers">Names of NGS Team Members</label>
+                            <InputText id="ngsTeamMembers" class="form-control" @bind-Value="projectDetails.NamesofNGSTeamMembers" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="startDate">Start Date</label>
+                            <InputDate id="startDate" class="form-control" @bind-Value="projectDetails.StartDate" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="endDate">End Date</label>
+                            <InputDate id="endDate" class="form-control" @bind-Value="projectDetails.EndDate" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="projectOverview">Project Overview</label>
+                            <InputTextArea id="projectOverview" class="form-control" @bind-Value="projectDetails.ProjectOverview" ></InputTextArea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="userRequirementsDescription">User Requirements Description</label>
+                            <InputTextArea id="userRequirementsDescription" class="form-control" @bind-Value="projectDetails.UserRequirementsDescription" ></InputTextArea>
+                            <InputFile id="userRequirementsDoc" OnChange="e => HandleFileSelected(e, nameof(projectDetails.UserRequirementsDocumentFileContent))" maxAllowedSize="104857600" /> <!-- 100 MB -->
+                            @if (!string.IsNullOrEmpty(projectDetails.UserRequirementsDocumentFileName))
+                            {
+                                <div>Current File: @projectDetails.UserRequirementsDocumentFileName</div>
+                            }
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="functionalOverviewDescription">Functional Overview Description</label>
+                            <InputTextArea id="functionalOverviewDescription" class="form-control" @bind-Value="projectDetails.FunctionalOverviewDescription" ></InputTextArea>
+                            <InputFile id="functionalOverviewDoc" OnChange="e => HandleFileSelected(e, nameof(projectDetails.FunctionalOverviewDocumentFileContent))" maxAllowedSize="104857600" /> <!-- 100 MB -->
+                            @if (!string.IsNullOrEmpty(projectDetails.FunctionalOverviewDocumentFileName))
+                            {
+                                <div>Current File: @projectDetails.FunctionalOverviewDocumentFileName</div>
+                            }
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="solutionRequirementSpecificationDescription">Solution Requirement Specification Description</label>
+                            <InputTextArea id="solutionRequirementSpecificationDescription" class="form-control" @bind-Value="projectDetails.SolutionRequirementSpecificationDescription" ></InputTextArea>
+                            <InputFile id="solutionRequirementSpecificationDoc" OnChange="e => HandleFileSelected(e, nameof(projectDetails.SolutionRequirementSpecificationDocumentFileContent))" maxAllowedSize="104857600" /> <!-- 100 MB -->
+                            @if (!string.IsNullOrEmpty(projectDetails.SolutionRequirementSpecificationDocumentFileName))
+                            {
+                                <div>Current File: @projectDetails.SolutionRequirementSpecificationDocumentFileName</div>
+                            }
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="technicalOverviewDescription">Technical Overview Description</label>
+                            <InputTextArea id="technicalOverviewDescription" class="form-control" @bind-Value="projectDetails.TechnicalOverviewDescription" ></InputTextArea>
+                            <InputFile id="technicalOverviewDoc" OnChange="e => HandleFileSelected(e, nameof(projectDetails.TechnicalOverviewDocumentFileContent))" maxAllowedSize="104857600" /> <!-- 100 MB -->
+                            @if (!string.IsNullOrEmpty(projectDetails.TechnicalOverviewDocumentFileName))
+                            {
+                                <div>Current File: @projectDetails.TechnicalOverviewDocumentFileName</div>
+                            }
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="projectManagementDescription">Project Management Description</label>
+                            <InputTextArea id="projectManagementDescription" class="form-control" @bind-Value="projectDetails.ProjectManagementDescription" ></InputTextArea>
+                            <InputFile id="projectManagementDoc" OnChange="e => HandleFileSelected(e, nameof(projectDetails.ProjectManagementDocumentFileContent))" maxAllowedSize="104857600" /> <!-- 100 MB -->
+                            @if (!string.IsNullOrEmpty(projectDetails.ProjectManagementDocumentFileName))
+                            {
+                                <div>Current File: @projectDetails.ProjectManagementDocumentFileName</div>
+                            }
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="solutionArchitectureDoc">Solution Architecture Document</label>
+                            <InputFile id="solutionArchitectureDoc" OnChange="e => HandleFileSelected(e, nameof(projectDetails.SolutionArchitectureDocumentFileContent))" maxAllowedSize="104857600" /> <!-- 100 MB -->
+                            @if (!string.IsNullOrEmpty(projectDetails.SolutionArchitectureDocumentFileName))
+                            {
+                                <div>Current File: @projectDetails.SolutionArchitectureDocumentFileName</div>
+                            }
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="caseStudyDoc">Case Study Document</label>
+                            <InputFile id="caseStudyDoc" OnChange="e => HandleFileSelected(e, nameof(projectDetails.CaseStudyDocumentFileContent))" maxAllowedSize="104857600" /> <!-- 100 MB -->
+                            @if (!string.IsNullOrEmpty(projectDetails.CaseStudyDocumentFileName))
+                            {
+                                <div>Current File: @projectDetails.CaseStudyDocumentFileName</div>
+                            }
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Update Project</button>
+                        <button class="btn btn-secondary mt-3" @onclick="GoBack">Back</button>
+
+                    </EditForm>
+                    <p class="mt-3">@postResponse</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public int projectId { get; set; }
+    private FileUploadViewModel projectDetails = new FileUploadViewModel();
+    private Dictionary<string, IBrowserFile> uploadedFiles = new Dictionary<string, IBrowserFile>();
+    private string postResponse;
+    [Inject] private ILogger<ProjectEdit> Logger { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var project = await MyApiService.ProjectDetails(projectId);
+        if (project != null)
+        {
+            projectDetails = JsonSerializer.Deserialize<FileUploadViewModel>(project, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+    }
+
+    private async Task SubmitEdit()
+    {
+        foreach (var fileEntry in uploadedFiles)
+        {
+            var file = fileEntry.Value;
+            var memoryStream = new MemoryStream();
+            await file.OpenReadStream(maxAllowedSize: 314572800).CopyToAsync(memoryStream); // 300 MB
+            var fileContent = memoryStream.ToArray();
+
+            switch (fileEntry.Key)
+            {
+                case nameof(projectDetails.UserRequirementsDocumentFileContent):
+                    projectDetails.UserRequirementsDocumentFileName = file.Name;
+                    projectDetails.UserRequirementsDocumentFileContent = fileContent;
+                    break;
+                case nameof(projectDetails.FunctionalOverviewDocumentFileContent):
+                    projectDetails.FunctionalOverviewDocumentFileName = file.Name;
+                    projectDetails.FunctionalOverviewDocumentFileContent = fileContent;
+                    break;
+                case nameof(projectDetails.SolutionRequirementSpecificationDocumentFileContent):
+                    projectDetails.SolutionRequirementSpecificationDocumentFileName = file.Name;
+                    projectDetails.SolutionRequirementSpecificationDocumentFileContent = fileContent;
+                    break;
+                case nameof(projectDetails.TechnicalOverviewDocumentFileContent):
+                    projectDetails.TechnicalOverviewDocumentFileName = file.Name;
+                    projectDetails.TechnicalOverviewDocumentFileContent = fileContent;
+                    break;
+                case nameof(projectDetails.ProjectManagementDocumentFileContent):
+                    projectDetails.ProjectManagementDocumentFileName = file.Name;
+                    projectDetails.ProjectManagementDocumentFileContent = fileContent;
+                    break;
+                case nameof(projectDetails.SolutionArchitectureDocumentFileContent):
+                    projectDetails.SolutionArchitectureDocumentFileName = file.Name;
+                    projectDetails.SolutionArchitectureDocumentFileContent = fileContent;
+                    break;
+                case nameof(projectDetails.CaseStudyDocumentFileContent):
+                    projectDetails.CaseStudyDocumentFileName = file.Name;
+                    projectDetails.CaseStudyDocumentFileContent = fileContent;
+                    break;
+            }
+        }
+
+        var jsonContent = JsonSerializer.Serialize(projectDetails);
+        var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+
+        try
+        {
+            Logger.LogInformation("Sending project details for edit: {ProjectDetails}", jsonContent);
+
+            var response = await MyApiService.EditProject(projectId, content);
+            if (!string.IsNullOrEmpty(response))
+            {
+                postResponse = "Project edited successfully!";
+                Logger.LogInformation("Project Updated successfully. Response: {Response}", response);
+            }
+            else
+            {
+                postResponse = "Failed to edit project. Please try again.";
+                Logger.LogError("Failed to edit project. Response was empty.");
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            postResponse = $"Error editing project: {ex.Message}";
+            Logger.LogError(ex, "Error editing project");
+        }
+    }
+
+    private void HandleFileSelected(InputFileChangeEventArgs e, string fieldName)
+    {
+        var file = e.File;
+        uploadedFiles[fieldName] = file;
+        Logger.LogInformation("File selected for {FieldName}: {FileName}", fieldName, file.Name);
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/HomePage");
+    }
+
+    private class FileUploadViewModel
+    {
+        public int Id { get; set; }
+        public string ProjectName { get; set; }
+        public string ClientName { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public string Manager { get; set; } = string.Empty;
+        public int? NumbersofProjectTeamMembers { get; set; }
+        public string NamesofNGSTeamMembers { get; set; } = string.Empty;
+        public DateTime? StartDate { get; set; } // Default to today's date
+        public DateTime? EndDate { get; set; } // Default to today's date
+        public string ProjectOverview { get; set; } = string.Empty;
+        public string UserRequirementsDescription { get; set; } = string.Empty;
+        public string FunctionalOverviewDescription { get; set; } = string.Empty;
+        public string SolutionRequirementSpecificationDescription { get; set; } = string.Empty;
+        public string TechnicalOverviewDescription { get; set; } = string.Empty;
+        public string ProjectManagementDescription { get; set; } = string.Empty;
+        public string UserRequirementsDocumentFileName { get; set; } = string.Empty;
+        public byte[] UserRequirementsDocumentFileContent { get; set; } = Array.Empty<byte>();
+        public string FunctionalOverviewDocumentFileName { get; set; } = string.Empty;
+        public byte[] FunctionalOverviewDocumentFileContent { get; set; } = Array.Empty<byte>();
+        public string SolutionRequirementSpecificationDocumentFileName { get; set; } = string.Empty;
+        public byte[] SolutionRequirementSpecificationDocumentFileContent { get; set; } = Array.Empty<byte>();
+        public string TechnicalOverviewDocumentFileName { get; set; } = string.Empty;
+        public byte[] TechnicalOverviewDocumentFileContent { get; set; } = Array.Empty<byte>();
+        public string ProjectManagementDocumentFileName { get; set; } = string.Empty;
+        public byte[] ProjectManagementDocumentFileContent { get; set; } = Array.Empty<byte>();
+        public string SolutionArchitectureDocumentFileName { get; set; } = string.Empty;
+        public byte[] SolutionArchitectureDocumentFileContent { get; set; } = Array.Empty<byte>();
+        public string CaseStudyDocumentFileName { get; set; } = string.Empty;
+        public byte[] CaseStudyDocumentFileContent { get; set; } = Array.Empty<byte>();
+    }
+}

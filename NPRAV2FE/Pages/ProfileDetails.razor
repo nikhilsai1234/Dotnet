@@ -1,0 +1,73 @@
+@page "/ProfileDetails"
+@inject ApiService MyApiService
+@inject CustomAuthStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@using System.Net.Http
+@using System.Text.Json
+@using System.Threading.Tasks
+
+<h1>Profile Details</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Profile Image" width="150" height="150" />
+                    </div>
+                    <div class="card-text">
+                        <div class="mb-2">
+                            <strong>Name: </strong>@profile.FirstName @profile.Surname
+                        </div>
+                        <div class="mb-2">
+                            <strong>Email: </strong>@profile.Email
+                        </div>
+                        <div class="mb-2">
+                            <strong>Phone Number: </strong>@profile.PhoneNumber
+                        </div>
+                        <button class="btn btn-primary mt-3" @onclick="EditProfile">Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ProfileDetail profile = new ProfileDetail();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthStateProvider.RedirectIfUserRoleEmpty();
+        try
+        {
+            var id = await AuthStateProvider.GetIdAsync();
+            if (int.TryParse(id, out int userId))
+            {
+                var response = await MyApiService.GetProfileDetails(userId);
+                if (!string.IsNullOrEmpty(response))
+                {
+                    profile = JsonSerializer.Deserialize<ProfileDetail>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+
+    private void EditProfile()
+    {
+        Navigation.NavigateTo("/ProfileEdit");
+    }
+
+    private class ProfileDetail
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+}

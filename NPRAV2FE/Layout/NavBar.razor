@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using System.Security.Claims
+@inject IJSRuntime JSRuntime
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top w-100">
+    <a class="navbar-brand" href="#">
+        <img src="./Logo.png" alt="Neurogaint Logo" style="height: 40px; width: auto; margin-left:10px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            @if (UserRole == "Admin")
+            {
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/HomePage" Match="NavLinkMatch.All">Home</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/AddProject">Add Project</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/UserAdd">User Registration</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/UserList">User List</NavLink>
+                </li>
+            }
+            @if (UserRole == "Management")
+            {
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/HomePage" Match="NavLinkMatch.All">Home</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/UserList">User List</NavLink>
+                </li>
+            }
+            @if (UserRole == "User")
+            {
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/HomePage" Match="NavLinkMatch.All">Home</NavLink>
+                </li>
+            }
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <img src="Profile.png" alt="Profile" style="height: 40px; width: 40px;">
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                    <NavLink class="dropdown-item" href="/ProfileDetails">Profile</NavLink>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="javascript:void(0)" @onclick="Logout">Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+@code {
+    private string UserRole { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var roleClaim = user.FindFirst(c => c.Type == ClaimTypes.Role);
+            if (roleClaim != null)
+            {
+                UserRole = roleClaim.Value;
+            }
+        }
+    }
+
+    private async Task Logout()
+    {
+        var authStateProvider = (CustomAuthStateProvider)AuthenticationStateProvider;
+        authStateProvider.NotifyUserLogout();
+
+        await JSRuntime.InvokeVoidAsync("sessionStorage.clear");
+        Navigation.NavigateTo("/login");
+    }
+}

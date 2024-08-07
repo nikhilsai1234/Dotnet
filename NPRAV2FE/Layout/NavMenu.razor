@@ -1,0 +1,75 @@
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">
+        <img src="images/Logo.png" alt="Neurogaint Logo" style="height: 40px; width: auto; margin-left:10px;">
+    </a>
+    <button id="navbarToggleBtn" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="color: white; border: none; position: relative;margin-left:10px;margin-right:10px;">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul class="navbar-nav nav-pills" style="margin-left: 10px;">
+            @if (UserRole == "Admin")
+            {
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Project/HomePage" Match="NavLinkMatch.All">Home</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Project/AddProject">Add Project</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/PRA/UserRegistration">User Registration</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/PRA/UserList">User List</NavLink>
+                </li>
+            }
+            @if (UserRole == "Management" || UserRole == "User")
+            {
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Project/HomePage" Match="NavLinkMatch.All">Home</NavLink>
+                </li>
+            }
+        </ul>
+        <div class="navbar-nav">
+            <div class="navbar-nav profile-item">
+                <div class="navbar-nav d-none d-lg-block" style="align-items:center">
+                    <div class="dropdown">
+                        <button class="profile-dropdown-btn" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="images/Profile.png" alt="Profile" style="height: 40px; width: 40px;">
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown" id="profileDropdownMenu">
+                            <li><NavLink class="dropdown-item" href="/Profile/ViewProfile">Profile</NavLink></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><NavLink class="dropdown-item" href="/PRA/Logout">Logout</NavLink></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-nav d-block d-lg-none" style="margin-left: 10px; margin-top:8px; background-color:transparent">
+                    <div class="dropdown">
+                        <button class="profile-dropdown-btn nav-link dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><NavLink class="dropdown-item" href="/Profile/ViewProfile">Profile</NavLink></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><NavLink class="dropdown-item" href="/PRA/Logout">Logout</NavLink></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private string UserRole { get; set; } = "User"; // Default role, replace with actual logic
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch user role from the API
+        var userRoleModel = await MyApiService.GetUserRole();
+        UserRole = userRoleModel.Role;
+    }
+}

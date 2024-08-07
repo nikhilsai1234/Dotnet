@@ -1,0 +1,81 @@
+html[b-8awp4rghou] {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html[b-8awp4rghou] {
+        font-size: 16px;
+    }
+}
+
+.btn:focus[b-8awp4rghou], .btn:active:focus[b-8awp4rghou], .btn-link.nav-link:focus[b-8awp4rghou], .form-control:focus[b-8awp4rghou], .form-check-input:focus[b-8awp4rghou] {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html[b-8awp4rghou] {
+    position: relative;
+    min-height: 100%;
+}
+
+body[b-8awp4rghou] {
+    margin-bottom: 60px;
+}
+
+.navbar[b-8awp4rghou] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    backdrop-filter: saturate(180%) blur(5px);
+    background-color: rgba(30, 139, 195)
+}
+
+.profile-dropdown-btn[b-8awp4rghou] {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-size 0.3s ease;
+    */ /* Add transition for smooth animation */
+}
+
+
+    .profile-dropdown-btn:active[b-8awp4rghou] {
+        background-size: 30px;
+        background-color: darkblue;
+    }
+
+.nav-pills .nav-link.active[b-8awp4rghou] {
+    background-color: transparent;
+    border-bottom: 2px solid #fff;
+    border-radius: inherit;
+    padding: 0.5rem 0.25rem;
+}
+
+@media (max-width: 992px) {
+    .nav-pills .nav-link.active[b-8awp4rghou] {
+        padding-right: 0.25rem 0.1rem;
+        width: 110px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-nav .nav-link[b-8awp4rghou] {
+        margin-right: 15px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-nav.d-none.d-lg-block .profile-dropdown-btn:hover[b-8awp4rghou] {
+        background-color: darkblue;
+        border-radius: 50%;
+    }
+}
+
+@media (max-width: 991px) {
+    .navbar-nav.d-block.d-lg-none .profile-dropdown-btn:hover[b-8awp4rghou] {
+        background-color: transparent;
+    }
+}

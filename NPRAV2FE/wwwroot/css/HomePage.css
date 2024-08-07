@@ -1,0 +1,186 @@
+﻿* {
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    margin-top: -100px;
+}
+
+.h6 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.h3 {
+
+    color: #002d72;
+}
+
+
+.table_header {
+    height: auto;
+    background-color: rgba(30, 139, 195, 0.6); /* Light blue background color */
+
+    padding: .8rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-bottom: 5px solid #fff;
+}
+
+.table_body {
+    max-height: 450px; /* Adjust the height to fit 10 rows */
+
+    overflow-y: auto; /* Enable vertical scrolling */
+
+    margin-top: -1px; /* Compensate for the 1px border of th */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background-color: #AFEEEE; /* Light blue header color */
+
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+tbody td {
+    padding: 12px; /* Adjust padding as needed */
+
+    border-bottom: 1px solid #fff; /* Add borders between rows */
+}
+
+th, td {
+    padding: 12px; /* Adjust padding as needed */
+
+    text-align: left;
+    border: 1px solid #ddd; /* Add borders to cells */
+
+    width: calc(100% / 6); /* Set fixed width for each column */
+
+    max-width: 150px; /* Set maximum width for content */
+
+    white-space: nowrap; /* Prevent content from wrapping */
+
+    overflow: hidden; /* Hide overflow content */
+
+    text-overflow: ellipsis; /* Display ellipsis for overflow content */
+}
+
+tbody tr:last-child td {
+    border-bottom: #000; /* Remove border for last row */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray for odd rows */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e6e6e6; /* Lighter gray for even rows */
+}
+
+tbody tr:hover {
+    background-color: #e2e2e2; /* Hover effect */
+}
+
+.table_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-right {
+    margin-right: 16px;
+}
+
+.search-container input[type=text] {
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+}
+
+    .search-container input[type=text]:focus {
+        outline: none;
+    }
+
+.search-container i {
+    color: #aaa;
+    margin-left: 8px;
+}
+
+button.view-btn {
+    padding: 5px 10px; /* Adjust padding */
+
+    font-size: 12px; /* Adjust font size */
+
+    background-color: rgba(0, 123, 255, 0.6); /* Blue background color */
+
+    color: #fff; /* White text color */
+
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button.view-btn:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+button.edit-btn {
+    padding: 5px 10px; /* Adjust padding */
+
+    font-size: 12px; /* Adjust font size */
+
+    background-color: rgba(255, 193, 7, 0.7); /* Warning color */
+
+    color: #fff; /* White text color */
+
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button.edit-btn:hover {
+        background-color: #d39e00; /* Darker warning color on hover */
+    }
+
+button.delete-btn {
+    padding: 5px 10px; /* Adjust padding */
+
+    font-size: 12px; /* Adjust font size */
+
+    background-color: rgba(220, 53, 69, 0.7); /* Red background color */
+
+    color: #fff; /* White text color */
+
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button.delete-btn:hover {
+        background-color: #c82333; /* Darker red on hover */
+    }
+
+/* Styles for smaller buttons on smaller screens */
+
+@media screen and (max-width: 1080px) {
+
+    button.view-btn,
+    button.edit-btn,
+    button.delete-btn {
+        padding: 3px 6px; /* Adjust padding for smaller screens */
+
+        font-size: 12px; /* Adjust font size for smaller screens */
+    }
+}

@@ -1,0 +1,14 @@
+﻿@page "/redirectToLogin"
+@inject NavigationManager Navigation
+
+@code {
+    protected override void OnInitialized()
+    {
+        var returnUrl = Navigation.ToBaseRelativePath(Navigation.Uri);
+        if (string.IsNullOrEmpty(returnUrl))
+        {
+            returnUrl = "/";
+        }
+        Navigation.NavigateTo($"login?returnUrl={returnUrl}");
+    }
+}

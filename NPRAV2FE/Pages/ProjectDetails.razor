@@ -1,0 +1,151 @@
+@page "/ProjectDetails/{projectId:int}"
+
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject CustomAuthStateProvider AuthStateProvider
+
+<h1>Project Details</h1>
+
+@if (project != null)
+{
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">@project.ProjectName</h2>
+                        <dl class="row">
+                            <dt class="col-sm-3">Client Name</dt>
+                            <dd class="col-sm-9">@project.ClientName</dd>
+                            <dt class="col-sm-3">Location</dt>
+                            <dd class="col-sm-9">@project.Location</dd>
+                            <dt class="col-sm-3">Manager</dt>
+                            <dd class="col-sm-9">@project.Manager</dd>
+                            <dt class="col-sm-3">Number of Team Members</dt>
+                            <dd class="col-sm-9">@project.NumbersofProjectTeamMembers</dd>
+                            <dt class="col-sm-3">NGS Team Members</dt>
+                            <dd class="col-sm-9">@project.NamesofNGSTeamMembers</dd>
+                            <dt class="col-sm-3">Start Date</dt>
+                            <dd class="col-sm-9">@project.StartDate.ToShortDateString()</dd>
+                            <dt class="col-sm-3">End Date</dt>
+                            <dd class="col-sm-9">@project.EndDate.ToShortDateString()</dd>
+                            <dt class="col-sm-3">Project Overview</dt>
+                            <dd class="col-sm-9">@project.ProjectOverview</dd>
+                            <dt class="col-sm-3">User Requirements</dt>
+                            <dd class="col-sm-9">
+                                <div>@project.UserRequirementsDescription</div>
+                                <a href="@project.UserRequirementsDocumentUrl" class="btn btn-link" download="@project.UserRequirementsDocumentFileName">Download @project.UserRequirementsDocumentFileName</a>
+                            </dd>
+                            <dt class="col-sm-3">Functional Overview</dt>
+                            <dd class="col-sm-9">
+                                <div>@project.FunctionalOverviewDescription</div>
+                                <a href="@project.FunctionalOverviewDocumentUrl" class="btn btn-link" download="@project.FunctionalOverviewDocumentFileName">Download @project.FunctionalOverviewDocumentFileName</a>
+                            </dd>
+                            <dt class="col-sm-3">Solution Requirement Specification</dt>
+                            <dd class="col-sm-9">
+                                <div>@project.SolutionRequirementSpecificationDescription</div>
+                                <a href="@project.SolutionRequirementSpecificationDocumentUrl" class="btn btn-link" download="@project.SolutionRequirementSpecificationDocumentFileName">Download @project.SolutionRequirementSpecificationDocumentFileName</a>
+                            </dd>
+                            <dt class="col-sm-3">Technical Overview</dt>
+                            <dd class="col-sm-9">
+                                <div>@project.TechnicalOverviewDescription</div>
+                                <a href="@project.TechnicalOverviewDocumentUrl" class="btn btn-link" download="@project.TechnicalOverviewDocumentFileName">Download @project.TechnicalOverviewDocumentFileName</a>
+                            </dd>
+                            <dt class="col-sm-3">Project Management</dt>
+                            <dd class="col-sm-9">
+                                <div>@project.ProjectManagementDescription</div>
+                                <a href="@project.ProjectManagementDocumentUrl" class="btn btn-link" download="@project.ProjectManagementDocumentFileName">Download @project.ProjectManagementDocumentFileName</a>
+                            </dd>
+                            <dt class="col-sm-3">Solution Architecture</dt>
+                            <dd class="col-sm-9">
+                                <a href="@project.SolutionArchitectureDocumentUrl" class="btn btn-link" download="@project.SolutionArchitectureDocumentFileName">Download @project.SolutionArchitectureDocumentFileName</a>
+                            </dd>
+                            <dt class="col-sm-3">Case Study</dt>
+                            <dd class="col-sm-9">
+                                <a href="@project.CaseStudyDocumentUrl" class="btn btn-link" download="@project.CaseStudyDocumentFileName">Download @project.CaseStudyDocumentFileName</a>
+                            </dd>
+                        </dl>
+                        <button class="btn btn-secondary mt-3" @onclick="GoBack">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter] public int projectId { get; set; }
+    private ProjectDetail project;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthStateProvider.RedirectIfUserRoleEmpty();
+        await LoadProjectDetails();
+    }
+
+    private async Task LoadProjectDetails()
+    {
+        try
+        {
+            Console.WriteLine($"Fetching project details for ID: {projectId}");
+            var response = await MyApiService.ProjectDetails(projectId);
+            Console.WriteLine($"API Response: {response}");
+
+            if (!string.IsNullOrEmpty(response))
+            {
+                project = JsonSerializer.Deserialize<ProjectDetail>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                Console.WriteLine($"Project Name: {project.ProjectName}");
+                Console.WriteLine($"Number of Team Members: {project.NumbersofProjectTeamMembers}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading project details: {ex.Message}");
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/HomePage");
+    }
+
+    private class ProjectDetail
+    {
+        public int Id { get; set; }
+        public string ProjectName { get; set; }
+        public string ClientName { get; set; }
+        public string Location { get; set; }
+        public string Manager { get; set; }
+        public int NumbersofProjectTeamMembers { get; set; }
+        public string NamesofNGSTeamMembers { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string ProjectOverview { get; set; }
+        public string UserRequirementsDescription { get; set; }
+        public string FunctionalOverviewDescription { get; set; }
+        public string SolutionRequirementSpecificationDescription { get; set; }
+        public string TechnicalOverviewDescription { get; set; }
+        public string ProjectManagementDescription { get; set; }
+        public string UserRequirementsDocumentFileName { get; set; }
+        public string FunctionalOverviewDocumentFileName { get; set; }
+        public string SolutionRequirementSpecificationDocumentFileName { get; set; }
+        public string TechnicalOverviewDocumentFileName { get; set; }
+        public string ProjectManagementDocumentFileName { get; set; }
+        public string SolutionArchitectureDocumentFileName { get; set; }
+        public string CaseStudyDocumentFileName { get; set; }
+        public string UserRequirementsDocumentUrl { get; set; }
+        public string FunctionalOverviewDocumentUrl { get; set; }
+        public string SolutionRequirementSpecificationDocumentUrl { get; set; }
+        public string TechnicalOverviewDocumentUrl { get; set; }
+        public string ProjectManagementDocumentUrl { get; set; }
+        public string SolutionArchitectureDocumentUrl { get; set; }
+        public string CaseStudyDocumentUrl { get; set; }
+    }
+}

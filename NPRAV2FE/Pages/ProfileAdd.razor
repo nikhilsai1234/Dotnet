@@ -1,0 +1,60 @@
+@page "/ProfileAdd"
+@inject ApiService MyApiService
+@using System.Net.Http
+
+@using System.Text
+
+@using System.Net.Http.Headers
+
+@using System.Text.Json
+
+
+<h1>Welcome to Blazor Web Assembly application</h1>
+<label>Company Name</label>
+<input type="text" @bind="@textInput" />
+<button @onclick="SendPostRequest">Submit</button>
+<p>@postResponse</p>
+
+@code
+{
+	private string apiResponse;
+	private string textInput;
+	private string postResponse;
+	protected override async Task OnInitializedAsync()
+	{
+		apiResponse = await MyApiService.ProfileAdd();
+	}
+	private async Task SendPostRequest()
+	{
+		// Check if userInput is not null or empty
+		if (!string.IsNullOrEmpty(textInput))
+		{
+			// Create HttpClient instance
+			using (var httpClient = new HttpClient())
+			{
+				// Serialize the userInput to JSON
+				string jsonInput = JsonSerializer.Serialize(textInput);
+
+				// Set the request content and headers
+				var content = new StringContent(jsonInput, Encoding.UTF8, "application/json");
+
+				// Send POST request to the API endpoint
+				var response = await httpClient.PostAsync("http://localhost:5267/api/ProfileAdd", content);
+
+				// Check if the request is successful
+				if (response.IsSuccessStatusCode)
+				{
+					postResponse = await response.Content.ReadAsStringAsync();
+				}
+				else
+				{
+					postResponse = "Error: " + response.StatusCode;
+				}
+			}
+		}
+		else
+		{
+			postResponse = "Please enter the value.";
+		}
+	}
+}

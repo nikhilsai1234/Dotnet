@@ -1,0 +1,150 @@
+@page "/HomePage"
+
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+@inject CustomAuthStateProvider AuthStateProvider
+@using System.Text.Json
+
+<head>
+    <link href="/css/HomePage.css" rel="stylesheet">
+</head>
+
+<h3 style="text-align:center;color:#003153">Project Details</h3>
+<br />
+
+<main>
+    <section class="table_header">
+        <div class="header-left">
+            <h6 style="color:#000;font-weight:bold">Total Projects in the Organisation: @totalProjects</h6>
+        </div>
+        <div class="header-right">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search Projects..." @bind="searchString" @oninput="SearchProjects" />
+                <i class="fa fa-search"></i>
+            </div>
+        </div>
+    </section>
+
+    <section class="table_body">
+        <table>
+            <thead>
+                <tr>
+                    <th style="color:#000;">Project Name</th>
+                    <th style="color:#000;">Client Name</th>
+                    <th style="color:#000;">Client Location</th>
+                    <th style="color:#000;">Team Members</th>
+                    <th style="color:#000;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (filteredProjects != null && filteredProjects.Any())
+                {
+                    @foreach (var item in filteredProjects)
+                    {
+                        <tr class="table-row">
+                            <td>@item.ProjectName</td>
+                            <td>@item.ClientName</td>
+                            <td>@item.Location</td>
+                            <td>@item.NumbersofProjectTeamMembers</td>
+                            <td>
+                                <button class="view-btn" @onclick="() => ViewProject(item.Id)">View</button>
+                                @if (UserRole == "Admin")
+                                {
+                                    <button class="edit-btn" @onclick="() => EditProject(item.Id)">Edit</button>
+                                    <button class="delete-btn" @onclick="() => DeleteProject(item.Id)">Delete</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" style="text-align:center">No projects found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</main>
+
+@code {
+    private List<ProjectModel> projects = new List<ProjectModel>();
+    private IEnumerable<ProjectModel> filteredProjects;
+    private int totalProjects;
+    private string searchString;
+    private string UserRole { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthStateProvider.RedirectIfUserRoleEmpty();
+
+        await LoadProjects();
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var roleClaim = user.FindFirst(c => c.Type == ClaimTypes.Role);
+            if (roleClaim != null)
+            {
+                UserRole = roleClaim.Value;
+            }
+        }
+    }
+
+    private async Task LoadProjects()
+    {
+        var response = await MyApiService.GetHomePageProjectsAsync();
+        if (!string.IsNullOrEmpty(response))
+        {
+            projects = JsonSerializer.Deserialize<List<ProjectModel>>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            filteredProjects = projects;
+            totalProjects = projects.Count;
+        }
+        else
+        {
+            Console.WriteLine("Failed to load project list.");
+        }
+    }
+
+    private void SearchProjects(ChangeEventArgs e)
+    {
+        searchString = e.Value.ToString();
+        if (string.IsNullOrWhiteSpace(searchString))
+        {
+            filteredProjects = projects;
+        }
+        else
+        {
+            filteredProjects = projects.Where(p =>
+                p.ProjectName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                p.ClientName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                p.Location.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    private void ViewProject(int id)
+    {
+        Navigation.NavigateTo($"/ProjectDetails/{id}");
+    }
+
+    private void EditProject(int id)
+    {
+        Navigation.NavigateTo($"/ProjectEdit/{id}");
+    }
+
+    private void DeleteProject(int id)
+    {
+        Navigation.NavigateTo($"/ProjectDelete/{id}");
+    }
+
+    private class ProjectModel
+    {
+        public int Id { get; set; }
+        public string ProjectName { get; set; }
+        public string ClientName { get; set; }
+        public string Location { get; set; }
+        public int NumbersofProjectTeamMembers { get; set; }
+    }
+}

@@ -1,0 +1,73 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\obj\\Debug\\net8.0\\compressed\\bbm1vxskge.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\obj\\Debug\\net8.0\\scopedcss\\bundle\\NPRAV2FE.styles.css",
+      "PackagePath": "staticwebassets\\NPRAV2FE.styles.css"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\Logo.png",
+      "PackagePath": "staticwebassets\\Logo.png"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\Profile.png",
+      "PackagePath": "staticwebassets\\Profile.png"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\css\\HomePage.css",
+      "PackagePath": "staticwebassets\\css\\HomePage.css"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\FinalNPRAV2\\NPRAV2FE\\NPRAV2FE\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.NPRAV2FE.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.NPRAV2FE.props",
+      "PackagePath": "build\\NPRAV2FE.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.NPRAV2FE.props",
+      "PackagePath": "buildMultiTargeting\\NPRAV2FE.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.NPRAV2FE.props",
+      "PackagePath": "buildTransitive\\NPRAV2FE.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

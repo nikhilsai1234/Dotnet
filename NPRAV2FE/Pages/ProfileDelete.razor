@@ -1,0 +1,81 @@
+@page "/ProfileDelete"
+@inject ApiService MyApiService
+@inject NavigationManager Navigation
+@using System.Net.Http
+@using System.Text.Json
+
+<h1>Delete Profile</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle" alt="Profile Image" width="150" height="150" />
+                    </div>
+                    <h4 class="card-title">@profile.UserName</h4>
+                    <div class="card-text">
+                        <div class="mb-2">
+                            <strong>Employee ID: </strong>@profile.EmployeeId
+                        </div>
+                        <div class="mb-2">
+                            <strong>Name: </strong>@profile.FirstName @profile.LastName
+                        </div>
+                        <div class="mb-2">
+                            <strong>Email: </strong>@profile.Email
+                        </div>
+                        <div class="mb-2">
+                            <strong>Phone Number: </strong>@profile.PhoneNo
+                        </div>
+                        <button class="btn btn-danger mt-3" @onclick="DeleteProfile">Delete Profile</button>
+                        <button class="btn btn-secondary mt-3 ml-2" @onclick="GoBack">Back</button>
+                        <p class="mt-3">@postResponse</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ProfileDetail profile = new ProfileDetail();
+    private string postResponse;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // var response = await MyApiService.GetProfileDetails();
+        // if (response != null)
+        // {
+        //     profile = JsonSerializer.Deserialize<ProfileDetail>(response);
+        // }
+    }
+
+    private async Task DeleteProfile()
+    {
+        var response = await MyApiService.ProfileDelete();
+        if (!string.IsNullOrEmpty(response))
+        {
+            postResponse = "Profile deleted successfully!";
+            Navigation.NavigateTo("/"); // Navigate to home page or another appropriate page after deletion
+        }
+        else
+        {
+            postResponse = "Failed to delete profile. Please try again.";
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/ProfileDetails");
+    }
+
+    private class ProfileDetail
+    {
+        public string EmployeeId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNo { get; set; }
+        public string UserName { get; set; }
+    }
+}
